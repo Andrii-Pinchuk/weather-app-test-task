@@ -16,10 +16,13 @@
       <div class="modal__message">
         <slot name="message"></slot>
       </div>
-      <button v-if="onConfirm" @click="confirmAction" class="modal__button">Confirm</button>
-      <button @click="closeModal" class="modal__button">
-        {{ onConfirm ? Cancel : "Ok" }}
-      </button>
+      <div v-if="onConfirm" class="modal__button-group">
+        <button @click="closeModal" class="modal__button warn">Cancel</button>
+        <button @click="confirmAction" class="modal__button primary">Confirm</button>
+      </div>
+      <div v-else>
+        <button @click="closeModal" class="modal__button primary">Ok</button>
+      </div>
     </div>
   </div>
 </template>
@@ -29,9 +32,11 @@ export default {
   props: {
     onConfirm: {
       type: Function,
+      default: null,
     },
     onCancel: {
       type: Function,
+      default: null,
     },
   },
   data() {
@@ -48,7 +53,8 @@ export default {
       this.showModal = false;
     },
     confirmAction() {
-      this.$emit("confirm");
+      this.onConfirm();
+      this.showModal = false;
     },
   },
 };
@@ -61,7 +67,7 @@ export default {
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.5);
+  background-color: $black-color-opacity-70;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -70,7 +76,7 @@ export default {
   &__message {
     width: 100%;
     padding: 16px;
-    border-bottom: 2px solid #b5b5d7;
+    border-bottom: 2px solid $main-theme-color;
   }
 
   &__title {
@@ -85,10 +91,16 @@ export default {
     flex-direction: column;
     align-items: center;
     max-width: calc(100% - 64px);
-    background: #fff;
+    background-color: $main-background-color;
     padding: 20px;
     border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 0 10px $black-color-opacity-20;
+  }
+
+  &__button-group {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
   }
 
   &__button {
@@ -96,13 +108,15 @@ export default {
 
     &--close {
       align-self: flex-end;
-      background: transparent;
       padding: 0;
       margin-left: 4px;
       margin-top: 0;
 
+      &:hover {
+        background-color: transparent;
+      }
+
       svg {
-        background: transparent;
         width: 36px;
         height: 36px;
       }

@@ -113,7 +113,7 @@ export default {
   margin-top: 20px;
 
   canvas {
-    border: 2px solid #b5b5d7;
+    border: 2px solid $main-theme-color;
     border-radius: 8px;
     padding: 12px;
     width: 100%;

@@ -9,13 +9,13 @@
     </div>
     <div v-for="(block, index) in weatherBlocks" :key="block.id" class="weather-block-wrap">
       <CityWeatherBlock :favorite-city="favoriteCities[index]" />
-      <button class="button-delete-block" @click="removeWeatherBlock(block.id)">
+      <button class="button-delete-block warn" @click="removeWeatherBlock(block.id)">
         <span>Delete weather block</span>
       </button>
     </div>
-    <button @click="addWeatherBlock" class="button-add-block">Add new weather block</button>
+    <button @click="addWeatherBlock" class="button-add-block primary">Add new weather block</button>
   </main>
-  <ModalWindow ref="modalWindow">
+  <ModalWindow ref="modalWindow" :on-confirm="onConfirm">
     <template v-slot:title>
       <h3>{{ modalTitle }}</h3>
     </template>
@@ -49,6 +49,7 @@ export default {
       modalTitle: "",
       modalMessage: "",
       itemRefs: [],
+      onConfirm: null,
     };
   },
   methods: {
@@ -72,7 +73,10 @@ export default {
       }
       const index = this.weatherBlocks.findIndex((block) => block.id === blockId);
       if (index !== -1) {
-        this.weatherBlocks.splice(index, 1);
+        this.modalTitle = "Delete a block ";
+        this.modalMessage = "Are you sure you want to delete the block?";
+        this.onConfirm = () => this.weatherBlocks.splice(index, 1);
+        this.$refs.modalWindow.openModal();
       }
     },
     showFavoriteCities() {
@@ -96,7 +100,7 @@ export default {
 
   &__link {
     text-decoration: none;
-    color: #333;
+    color: $main-text-color;
     font-weight: bold;
     padding: 10px;
     border-radius: 4px 4px 0 0;
@@ -105,15 +109,15 @@ export default {
     transition: background-color 0.3s;
 
     &:not(.active):hover {
-      background-color: #ddd;
+      background-color: $hover-color;
     }
 
     &.active {
       position: relative;
-      border-top: 2px solid #b5b5d7;
-      border-right: 2px solid #b5b5d7;
-      border-left: 2px solid #b5b5d7;
-      color: #ffd700;
+      border-top: 2px solid $main-theme-color;
+      border-right: 2px solid $main-theme-color;
+      border-left: 2px solid $main-theme-color;
+      color: $secondary-theme-color;
 
       &::after {
         position: absolute;
@@ -122,7 +126,7 @@ export default {
         content: "";
         width: 100%;
         height: 4px;
-        background-color: #f0f0f0;
+        background-color: $main-background-color;
       }
     }
   }
@@ -130,19 +134,15 @@ export default {
 
 .weather-block-wrap {
   padding: 8px;
-  border-bottom: 2px solid #b5b5d7;
+  border-bottom: 2px solid $main-theme-color;
 }
 
 .button-delete-block {
   margin-top: 12px;
-  border: 2px solid #ff0033;
-  color: #ff0033;
 }
 
 .button-add-block {
   margin: 8px 0 8px 8px;
-  color: #007bff;
-  border: 2px solid #007bff;
 }
 
 @include breakpoint(tablet) {
