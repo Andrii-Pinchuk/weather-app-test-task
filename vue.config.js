@@ -4,14 +4,17 @@ module.exports = defineConfig({
   css: {
     loaderOptions: {
       sass: {
-        additionalData: "@import './src/assets/styles/_variables.scss';",
+        additionalData: `
+          @import './src/assets/styles/utils/_variables.scss';
+          @import './src/assets/styles/utils/_mixins.scss';
+        `,
       },
     },
   },
   pages: {
     index: {
       entry: "src/main.js",
-      title: "Weather App", // Change the title here
+      title: "Weather App",
     },
   },
 });

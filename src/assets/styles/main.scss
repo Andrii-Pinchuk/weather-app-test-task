@@ -3,3 +3,33 @@ html {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
+h1, h2, h3, h4, p, ul, li, button {
+  margin: 0;
+  padding: 0;
+}
+
+ul {
+  list-style: none;
+}
+
+input {
+  outline: none;
+}
+
+button {
+  cursor: pointer;
+  margin: 0;
+  padding: 8px;
+  border: none;
+  border-radius: 4px;
+  transition: background-color 0.3s;
+
+  &:hover {
+    background-color: #ddd;
+  }
+}
+
+body {
+  background-color: #f0f0f0;
+}

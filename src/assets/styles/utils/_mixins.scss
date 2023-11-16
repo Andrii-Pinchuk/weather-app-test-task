@@ -1,0 +1,17 @@
+$breakpoints: (
+    tablet: 768px,
+    laptop: 1024px,
+    desktop: 1200px
+);
+
+@mixin breakpoint($device) {
+  $point: map-get($breakpoints, $device);
+
+  @if $point {
+    @media (min-width: $point) {
+      @content;
+    }
+  } @else {
+    @warn "Invalid device name. Please use 'mobile', 'tablet', or 'desktop'.";
+  }
+}

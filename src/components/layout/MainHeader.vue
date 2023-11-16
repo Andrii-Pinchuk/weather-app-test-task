@@ -1,11 +1,6 @@
 <template>
   <header class="main-header">
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="128"
-      height="128"
-      xml:space="preserve"
-    >
+    <svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" xml:space="preserve">
       <path
         fill="#FFD700"
         d="m89.717 17.396 3.928.847-2.67 12.383-3.927-.846zM69.924 18.72l3.854 12.066-3.828 1.223-3.854-12.066zM49.612 31.039l9.344 8.514-2.706 2.97-9.345-8.513zM109.038 83.369l9.343 8.515-2.706 2.97-9.343-8.516zM115.679 67.377l12.33 2.681-.854 3.926-12.33-2.681zM125.457 46.337l1.231 3.824-12.016 3.87-1.231-3.825zM111.452 27.057l2.983 2.694-8.477 9.387-2.983-2.694z"
@@ -46,9 +41,19 @@ export default {
   align-items: center;
 
   h1 {
-    margin-left: 32px;
+    margin-left: 16px;
+    padding: 8px;
+    font-size: 32px;
     color: $main-text-color;
     display: flex;
+
+    @include breakpoint(tablet) {
+      font-size: $main-title-size;
+      margin-left: 32px;
+    }
+    @include breakpoint(laptop) {
+      font-size: 48px;
+    }
   }
 }
 </style>
