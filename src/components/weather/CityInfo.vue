@@ -1,6 +1,7 @@
 <template>
   <div class="city">
     <h3 class="city__title">{{ city.name }}, {{ city.additionalInfo.country }}</h3>
+    <h4 class="city__subtitle">{{ currentDateFormatted }}</h4>
     <div class="city__info-wrap">
       <div class="city__weather-info">
         <div class="city__weather-details">
@@ -29,7 +30,7 @@
 
 <script>
 export default {
-  name: "CityCurrentWeatherInfo",
+  name: "CityInfo",
   props: {
     city: {
       type: Object,
@@ -38,20 +39,27 @@ export default {
   },
   computed: {
     sunriseFormatted() {
-      return this.formatTime(this.city.additionalInfo.sunrise, this.city.additionalInfo.timezone);
+      return this.formatTime(this.city.additionalInfo.sunrise);
     },
     sunsetFormatted() {
-      return this.formatTime(this.city.additionalInfo.sunset, this.city.additionalInfo.timezone);
+      return this.formatTime(this.city.additionalInfo.sunset);
+    },
+    currentDateFormatted() {
+      return this.formatDate(this.city.dt);
     },
   },
   methods: {
-    formatTime(timestamp) {
-      const date = new Date(timestamp * 1000);
+    formatTime(dt) {
+      const date = new Date(dt * 1000);
       const options = {
         hour: "numeric",
         minute: "numeric",
       };
       return new Intl.DateTimeFormat("en-US", options).format(date);
+    },
+    formatDate(dt) {
+      const date = new Date(dt * 1000);
+      return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
     },
   },
 };
@@ -66,9 +74,16 @@ export default {
 
   &__title {
     align-self: flex-start;
-    font-size: 1.8em;
-    margin: 4px 0 8px;
+    font-size: 32px;
+    margin: 4px 0 12px;
     color: #333;
+  }
+
+  &__subtitle {
+    align-self: flex-start;
+    font-size: 18px;
+    color: $secondary-text-color;
+    margin-bottom: 12px;
   }
 
   &__info-wrap {

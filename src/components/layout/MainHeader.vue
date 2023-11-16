@@ -41,9 +41,19 @@ export default {
   align-items: center;
 
   h1 {
-    margin-left: 32px;
+    margin-left: 16px;
+    padding: 8px;
+    font-size: 32px;
     color: $main-text-color;
     display: flex;
+
+    @include breakpoint(tablet) {
+      font-size: $main-title-size;
+      margin-left: 32px;
+    }
+    @include breakpoint(laptop) {
+      font-size: 48px;
+    }
   }
 }
 </style>

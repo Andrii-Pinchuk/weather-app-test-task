@@ -1,7 +1,7 @@
 <template>
   <div class="city-weather-block">
     <div class="city-weather-block__header">
-      <div class="autocomplete">
+      <div v-if="!readOnlyMode" class="autocomplete">
         <input v-model="searchInput" @input="handleInput" class="autocomplete__input" placeholder="Enter city name" />
         <ul v-if="searchResults.length" class="autocomplete__list">
           <li v-for="result in searchResults" :key="result.id" @click="selectCity(result)">
@@ -9,7 +9,7 @@
           </li>
         </ul>
       </div>
-      <button v-show="selectedCity" @click="toggleFavoriteStatus" class="button-favorite">
+      <button v-if="!readOnlyMode" v-show="selectedCity" @click="toggleFavoriteStatus" class="button-favorite">
         <svg
           v-if="isFavorite"
           xmlns="http://www.w3.org/2000/svg"
@@ -41,28 +41,43 @@
     <p v-if="!selectedCity" class="city-weather-block__help-text">Please choose a city to see the weather</p>
     <div v-else>
       <div class="city-weather-block__city-wrap">
-        <CityCurrentWeatherInfo :city="selectedCity" />
+        <CityInfo :city="selectedCity" />
       </div>
       <div class="city-weather-block__forecast-wrap">
-        <CityWeatherForecast :forecast-data="this.forecastData" />
+        <CityWeatherForecastCard :forecast-data="this.forecastData" />
+      </div>
+      <div class="city-weather-block__forecast-chart-wrap">
+        <CityWeatherForecastChart :forecast-data="this.forecastData" />
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import CityCurrentWeatherInfo from "@/components/common/CityCurrentWeatherInfo";
-import CityWeatherForecast from "@/components/common/CityWeatherForecast";
+import CityInfo from "@/components/weather/CityInfo";
+import CityWeatherForecastCard from "@/components/weather/CityWeatherForecastCard";
+import CityWeatherForecastChart from "@/components/weather/CityWeatherForecastChart";
+
 export default {
   name: "CityWeatherBlock",
   components: {
-    CityCurrentWeatherInfo,
-    CityWeatherForecast,
+    CityInfo,
+    CityWeatherForecastCard,
+    CityWeatherForecastChart,
   },
   props: {
     favoriteCity: {
       type: Object,
       default: null,
+    },
+    readOnlyMode: {
+      type: Boolean,
+      default: false,
+    },
+  },
+  computed: {
+    favoriteCities() {
+      return JSON.parse(localStorage.getItem("favoriteCities")) || [];
     },
   },
   data() {
@@ -83,6 +98,12 @@ export default {
       this.getCities();
     },
     selectCity(city) {
+      if (this.selectedCity && this.selectedCity.id === city.id) {
+        this.searchInput = "";
+        this.searchResults = [];
+        return;
+      }
+      this.isFavorite = false;
       this.searchInput = "";
       this.searchResults = [];
       this.getForecast(city);
@@ -205,6 +226,14 @@ export default {
     background-color: transparent;
     svg path {
       fill: #ffd700 !important;
+    }
+  }
+}
+
+@include breakpoint(tablet) {
+  .autocomplete {
+    &__input {
+      width: 334px;
     }
   }
 }

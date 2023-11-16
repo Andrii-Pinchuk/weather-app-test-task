@@ -50,6 +50,7 @@
 
 <script>
 export default {
+  name: "CityWeatherForecastCard",
   props: {
     forecastData: {
       type: Array,
@@ -61,9 +62,7 @@ export default {
       const currentDate = new Date().toLocaleDateString();
 
       if (this.isHourlyActive) {
-        return this.forecastData.filter(
-          (hourData) => new Date(hourData.dt * 1000).toLocaleDateString() === currentDate
-        );
+        return this.forecastData;
       } else if (this.isOneDayActive) {
         const dayData = this.calculateDayAverages(currentDate);
         return dayData ? [dayData] : [];
@@ -168,18 +167,18 @@ export default {
 .forecast-switch {
   display: flex;
   justify-content: flex-start;
-}
 
-.forecast-switch__button {
-  padding: 8px;
-  margin-right: 10px;
-  border: 2px solid #b5b5d7;
-  border-radius: 4px;
-  cursor: pointer;
+  &__button {
+    padding: 8px;
+    margin-right: 10px;
+    border: 2px solid #b5b5d7;
+    border-radius: 4px;
+    cursor: pointer;
 
-  &--active {
-    color: #007bff;
-    border: 2px solid #007bff;
+    &--active {
+      color: #007bff;
+      border: 2px solid #007bff;
+    }
   }
 }
 

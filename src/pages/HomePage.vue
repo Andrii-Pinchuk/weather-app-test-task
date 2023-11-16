@@ -1,11 +1,11 @@
 <template>
   <MainHeader />
-  <main class="main">
+  <main class="main-page">
     <div class="tabs">
       <router-link to="/" :class="['tabs__link', { active: $route.path === '/' }]">Main</router-link>
-      <router-link to="/favorite" :class="['tabs__link', { active: $route.path === '/favorite' }]"
-        >Favorite</router-link
-      >
+      <router-link to="/favorites" :class="['tabs__link', { active: $route.path === '/favorites' }]">
+        Favorite
+      </router-link>
     </div>
     <div v-for="(block, index) in weatherBlocks" :key="block.id" class="weather-block-wrap">
       <CityWeatherBlock :favorite-city="favoriteCities[index]" />
@@ -14,25 +14,28 @@
       </button>
     </div>
     <button @click="addWeatherBlock" class="button-add-block">Add new weather block</button>
-
-    <div v-if="showAddCityModal" class="modal">
-      <div class="modal__content">
-        <p>To add a city, remove one. You can only add up to 5 cities.</p>
-        <button @click="closeAddCityModal" class="modal__button">OK</button>
-      </div>
-    </div>
   </main>
+  <ModalWindow ref="modalWindow">
+    <template v-slot:title>
+      <h3>{{ modalTitle }}</h3>
+    </template>
+    <template v-slot:message>
+      <p>{{ modalMessage }}</p>
+    </template>
+  </ModalWindow>
 </template>
 
 <script>
-import CityWeatherBlock from "@/components/common/CityWeatherBlock.vue";
+import CityWeatherBlock from "@/components/weather/CityWeatherBlock.vue";
 import MainHeader from "@/components/layout/MainHeader";
+import ModalWindow from "@/components/common/ModalWindow";
 
 export default {
   name: "HomePage",
   components: {
     MainHeader,
     CityWeatherBlock,
+    ModalWindow,
   },
   computed: {
     favoriteCities() {
@@ -43,17 +46,17 @@ export default {
     return {
       weatherBlocks: [{ id: 1 }],
       maxVisibleBlocks: 5,
-      showAddCityModal: false,
+      modalTitle: "",
+      modalMessage: "",
       itemRefs: [],
     };
   },
   methods: {
-    closeAddCityModal() {
-      this.showAddCityModal = false;
-    },
     addWeatherBlock() {
       if (this.weatherBlocks.length === this.maxVisibleBlocks) {
-        this.showAddCityModal = true;
+        this.modalTitle = "Adding a block is forbidden";
+        this.modalMessage = "To add a block, remove one. You can only add up to 5 blocks";
+        this.$refs.modalWindow.openModal();
         return;
       }
       const lastBlock = this.weatherBlocks[this.weatherBlocks.length - 1];
@@ -61,7 +64,12 @@ export default {
       this.weatherBlocks.push(newBlock);
     },
     removeWeatherBlock(blockId) {
-      if (this.weatherBlocks.length === 1) return;
+      if (this.weatherBlocks.length === 1) {
+        this.modalTitle = "Deleting a block is forbidden";
+        this.modalMessage = "At least one block on the page";
+        this.$refs.modalWindow.openModal();
+        return;
+      }
       const index = this.weatherBlocks.findIndex((block) => block.id === blockId);
       if (index !== -1) {
         this.weatherBlocks.splice(index, 1);
@@ -120,30 +128,6 @@ export default {
   }
 }
 
-.modal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  &__content {
-    background: #fff;
-    padding: 20px;
-    border-radius: 8px;
-    text-align: center;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-  }
-
-  &__button {
-    margin-top: 10px;
-  }
-}
-
 .weather-block-wrap {
   padding: 8px;
   border-bottom: 2px solid #b5b5d7;
@@ -182,6 +166,9 @@ export default {
   .button-add-block {
     margin: 32px 0 32px 32px;
   }
+  .button-delete-block {
+    margin-top: 28px;
+  }
 }
 
 @include breakpoint(desktop) {
@@ -193,6 +180,9 @@ export default {
   }
   .button-add-block {
     margin: 48px 0 48px 48px;
+  }
+  .button-delete-block {
+    margin-top: 44px;
   }
 }
 </style>
