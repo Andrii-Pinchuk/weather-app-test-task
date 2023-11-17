@@ -1,9 +1,9 @@
 <template>
   <div class="weather-forecast">
     <div class="forecast-switch weather-forecast__switch">
-      <button :class="{ 'forecast-switch__button--active': isHourlyActive }" @click="switchToHourly">Hourly</button>
-      <button :class="{ 'forecast-switch__button--active': isOneDayActive }" @click="switchTo1Day">1 Day</button>
-      <button :class="{ 'forecast-switch__button--active': isFiveDaysActive }" @click="switchTo5Days">5 Days</button>
+      <button :class="{ active: isHourlyActive }" @click="switchToHourly">Hourly</button>
+      <button :class="{ active: isOneDayActive }" @click="switchTo1Day">1 Day</button>
+      <button :class="{ active: isFiveDaysActive }" @click="switchTo5Days">5 Days</button>
     </div>
     <div class="weather-forecast__row" v-if="isHourlyActive">
       <div v-for="hourData in processedForecast" :key="hourData.dt" class="forecast-item weather-forecast__item">
@@ -144,7 +144,7 @@ export default {
 
 <style scoped lang="scss">
 .weather-forecast {
-  border: 2px solid #b5b5d7;
+  border: 2px solid $main-theme-color;
   border-radius: 8px;
   padding: 10px;
   overflow-x: auto;
@@ -171,21 +171,16 @@ export default {
   &__button {
     padding: 8px;
     margin-right: 10px;
-    border: 2px solid #b5b5d7;
+    border: 2px solid $main-theme-color;
     border-radius: 4px;
     cursor: pointer;
-
-    &--active {
-      color: #007bff;
-      border: 2px solid #007bff;
-    }
   }
 }
 
 .forecast-item {
   flex: 0 0 auto;
   padding: 12px;
-  background-color: #fff;
+  background-color: $white-color;
   border-radius: 5px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 
@@ -194,7 +189,7 @@ export default {
   &__temp,
   &__humidity {
     margin: 0;
-    color: #333;
+    color: $main-text-color;
   }
 
   &__icon {

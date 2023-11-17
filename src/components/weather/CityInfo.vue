@@ -99,7 +99,7 @@ export default {
   &__weather-info,
   &__additional-info {
     display: flex;
-    background-color: #fff;
+    background-color: $white-color;
     padding: 15px;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);

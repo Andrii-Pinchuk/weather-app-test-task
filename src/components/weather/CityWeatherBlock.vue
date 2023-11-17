@@ -180,12 +180,12 @@ export default {
 
   &__input {
     border-radius: 8px;
-    border: 2px solid #b5b5d7;
+    border: 2px solid $main-theme-color;
     padding: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 
     &:focus {
-      border: 2px solid #007bff !important;
+      border: 2px solid $action-color !important;
     }
   }
 
@@ -195,8 +195,8 @@ export default {
     left: 0;
     width: 100%;
     list-style: none;
-    background-color: #fff;
-    border: 2px solid #b5b5d7;
+    background-color: $white-color;
+    border: 2px solid $main-theme-color;
     border-radius: 8px;
     padding: 0;
     margin: 0;
@@ -207,7 +207,7 @@ export default {
       border-radius: 8px;
 
       &:hover {
-        background-color: #ddd;
+        background-color: $hover-color;
       }
     }
   }
@@ -225,7 +225,7 @@ export default {
   &:hover {
     background-color: transparent;
     svg path {
-      fill: #ffd700 !important;
+      fill: $secondary-theme-color !important;
     }
   }
 }

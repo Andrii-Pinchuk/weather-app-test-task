@@ -55,7 +55,7 @@ export default {
 .tabs {
   display: flex;
   padding: 0 8px;
-  border-bottom: 2px solid #b5b5d7;
+  border-bottom: 2px solid $main-theme-color;
 
   &__link {
     text-decoration: none;
@@ -68,15 +68,15 @@ export default {
     transition: background-color 0.3s;
 
     &:not(.active):hover {
-      background-color: #ddd;
+      background-color: $hover-color;
     }
 
     &.active {
       position: relative;
-      border-top: 2px solid #b5b5d7;
-      border-right: 2px solid #b5b5d7;
-      border-left: 2px solid #b5b5d7;
-      color: #ffd700;
+      border-top: 2px solid $main-theme-color;
+      border-right: 2px solid $main-theme-color;
+      border-left: 2px solid $main-theme-color;
+      color: $secondary-theme-color;
 
       &::after {
         position: absolute;
@@ -85,7 +85,7 @@ export default {
         content: "";
         width: 100%;
         height: 4px;
-        background-color: #f0f0f0;
+        background-color: $main-background-color;
       }
     }
   }
@@ -93,7 +93,7 @@ export default {
 
 .weather-block-wrap {
   padding: 8px;
-  border-bottom: 2px solid #b5b5d7;
+  border-bottom: 2px solid $main-theme-color;
 }
 
 @include breakpoint(tablet) {
