@@ -76,7 +76,7 @@ export default {
     align-self: flex-start;
     font-size: 32px;
     margin: 4px 0 12px;
-    color: #333;
+    color: $main-text-color;
   }
 
   &__subtitle {

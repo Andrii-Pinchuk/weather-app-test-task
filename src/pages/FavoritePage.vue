@@ -59,7 +59,7 @@ export default {
 
   &__link {
     text-decoration: none;
-    color: #333;
+    color: $main-text-color;
     font-weight: bold;
     padding: 10px;
     border-radius: 4px 4px 0 0;
