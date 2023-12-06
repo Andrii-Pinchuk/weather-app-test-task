@@ -1,5 +1,6 @@
-# weather-app-test-task
+# Weather app test task
 
+**[DEMO](https://andrii-pinchuk.github.io/weather-app-test-task/)**
 ## Project setup
 ```
 npm install
